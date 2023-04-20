@@ -6,9 +6,9 @@ namespace adonet_db_videogame
     {
         static void Main(string[] args)
         {
-            //Apertura connessione
+            //stringa di connessione
             string stringConnection = "Data Source=localhost;Initial Catalog=test;Integrated Security=True";
-            SqlConnection sqlConnection = new SqlConnection(stringConnection);      
+                
         }
     }
 }
