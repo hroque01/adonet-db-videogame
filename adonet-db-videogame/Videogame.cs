@@ -8,7 +8,6 @@ namespace adonet_db_videogame
 {
     internal class Videogame
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Overview { get; set; }
         public DateTime Release_date { get; set; }
@@ -16,9 +15,8 @@ namespace adonet_db_videogame
         public DateTime Update_at { get; set; }
         public int Software_house_id { get; set; }
 
-        public Videogame(int id, string name, string overview, DateTime release_date, DateTime created_at, DateTime update_at, int software_house_id)
+        public Videogame(string name, string overview, DateTime release_date, DateTime created_at, DateTime update_at, int software_house_id)
         {
-            Id = id;
             Name = name;
             Overview = overview;
             Release_date = release_date;
