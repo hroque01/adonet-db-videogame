@@ -24,26 +24,56 @@ namespace adonet_db_videogame
                 try
                 {
                     conn.Open();
-                    var sql = $"INSERT INTO videogames (name, overview, release_date, created_at, update_at, software_house_id)" +
-                        $"OUTPUT INSERTED.ID" +
-                        $"VALUES (@Name, @Overview, @Release_date, @Creted_at, @Update_at, Software_house_id)";
-                    using(SqlCommand cmd = new SqlCommand(sql, conn))
+                    var sql = @"INSERT INTO videogames (name, overview, release_date, software_house_id) " +
+                                "OUTPUT INSERTED.ID " +
+                                "VALUES (@Name, @Overview, @Release_date, @Software_house_id)";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@Name", videogame.Name);
                         cmd.Parameters.AddWithValue("@Overview", videogame.Overview);
                         cmd.Parameters.AddWithValue("@Release_date", videogame.Release_date);
-                        cmd.Parameters.AddWithValue("@Creted_at", videogame.Created_at);
-                        cmd.Parameters.AddWithValue("@Update_at", videogame.Update_at);
                         cmd.Parameters.AddWithValue("@Software_house_id", videogame.Software_house_id);
+                        cmd.ExecuteNonQuery();
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);  
                 }
-                
 
+            }
+        }
+        public void GetVideogameId(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    var sql = @"SELECT * FROM videogames WHERE id = @Id";
 
+                    using(SqlCommand cmd = new SqlCommand(sql,conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            {
+                                string name = reader.GetString(reader.GetOrdinal("name"));
+                                string overview = reader.GetString(reader.GetOrdinal("overview"));
+                                DateTime releaseDate = reader.GetDateTime(reader.GetOrdinal("release_date"));           
+                                int softwareHouseId = reader.GetInt32(reader.GetOrdinal("software_house_id"));
+
+                                new Videogame(name, overview, releaseDate, softwareHouseId);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
     }
