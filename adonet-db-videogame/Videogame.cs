@@ -11,9 +11,9 @@ namespace adonet_db_videogame
         public string Name { get; set; }
         public string Overview { get; set; }
         public DateTime Release_date { get; set; }
-        public int Software_house_id { get; set; }
+        public long Software_house_id { get; set; }
 
-        public Videogame(string name, string overview, DateTime release_date, int software_house_id)
+        public Videogame(string name, string overview, DateTime release_date, long software_house_id)
         {
             Name = name;
             Overview = overview;

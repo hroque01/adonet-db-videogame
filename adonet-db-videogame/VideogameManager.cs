@@ -44,7 +44,7 @@ namespace adonet_db_videogame
 
             }
         }
-        public void GetVideogameId(int id)
+        public Videogame GetVideogameId(int id)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -53,19 +53,24 @@ namespace adonet_db_videogame
                     conn.Open();
                     var sql = @"SELECT * FROM videogames WHERE id = @Id";
 
-                    using(SqlCommand cmd = new SqlCommand(sql,conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@Id", id);
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
+                            if (reader.Read())
                             {
                                 string name = reader.GetString(reader.GetOrdinal("name"));
                                 string overview = reader.GetString(reader.GetOrdinal("overview"));
-                                DateTime releaseDate = reader.GetDateTime(reader.GetOrdinal("release_date"));           
-                                int softwareHouseId = reader.GetInt32(reader.GetOrdinal("software_house_id"));
+                                DateTime releaseDate = reader.GetDateTime(reader.GetOrdinal("release_date"));
+                                long softwareHouseId = reader.GetInt64(reader.GetOrdinal("software_house_id"));
 
-                                new Videogame(name, overview, releaseDate, softwareHouseId);
+                                return new Videogame(name, overview, releaseDate, softwareHouseId);
+                            }
+                            else
+                            {
+                                throw new Exception("Videogame non trovato.");
                             }
                         }
                     }
@@ -73,6 +78,7 @@ namespace adonet_db_videogame
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    return null;
                 }
             }
         }
