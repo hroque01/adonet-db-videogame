@@ -92,5 +92,39 @@ namespace adonet_db_videogame
                 Console.WriteLine($"Nessun videogioco trovato con l'ID {id}. \n");
             }
         }
+
+        public static void UserGetGameName()
+        {
+            string connectionString = "Data Source=localhost;Initial Catalog=test;Integrated Security=True";
+            VideogameManager manager = new VideogameManager(connectionString);
+
+            string input;
+
+            do
+            {
+                Console.Write("Inserisci il nome (o parte del nome) del videogioco: ");
+                input = Console.ReadLine();
+            } while (string.IsNullOrEmpty(input));
+
+            manager.GetVideogamesName(input);
+
+        }
+
+        public static void UserCancelId()
+        {
+            string connectionString = "Data Source=localhost;Initial Catalog=test;Integrated Security=True";
+            VideogameManager manager = new VideogameManager(connectionString);
+
+            int id;
+            string input;
+
+            do
+            {
+                Console.Write("Inserisci l'ID del videogioco da cancellare: ");
+                input = Console.ReadLine();
+            } while (!int.TryParse(input, out id));
+
+            manager.DeleteGame(id);
+        }
     }
 }

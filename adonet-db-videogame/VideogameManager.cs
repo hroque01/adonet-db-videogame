@@ -19,7 +19,7 @@ namespace adonet_db_videogame
         public void InserisciVideogame(Videogame videogame)
         {
             //istanzio l'using
-            using (SqlConnection  conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -39,7 +39,7 @@ namespace adonet_db_videogame
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);  
+                    Console.WriteLine(ex.Message);
                 }
 
             }
@@ -80,6 +80,71 @@ namespace adonet_db_videogame
                     Console.WriteLine(ex.Message);
                     return null;
                 }
+            }
+        }
+
+        public void GetVideogamesName(string name)
+        {
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    var sql = "SELECT * FROM videogames WHERE name like '%' + @name + '%'";
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add(new SqlParameter("@name", name));
+
+                    using SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        while (reader.Read())
+                        {
+                            Console.WriteLine(reader["name"]);
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        public void DeleteGame(int id)
+        {
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string sql = "DELETE FROM videogames WHERE id = @id";
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    int videogameRaw = cmd.ExecuteNonQuery();
+
+                    if (videogameRaw == 1)
+                    {
+                        Console.WriteLine("Dato Eliminato!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Dato non eliminato!");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             }
         }
     }
