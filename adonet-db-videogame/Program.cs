@@ -16,6 +16,7 @@ namespace adonet_db_videogame
                 Console.WriteLine("2. Cerca un gioco tramite Id");
                 Console.WriteLine("3. Cerca un gioco tramite nome");
                 Console.WriteLine("4. Cancella un gioco");
+                Console.WriteLine("5. Chiudi il programma");
                 Console.WriteLine("\n ------------------ \n");
 
                 Console.Write("Inserisci opzione: ");
@@ -39,6 +40,9 @@ namespace adonet_db_videogame
                     case 4:
                         UserInterface.UserCancelId();
                         break;
+                    case 5:
+                        Console.WriteLine("Arrivederci!");
+                        return;
                 }
             }
             
